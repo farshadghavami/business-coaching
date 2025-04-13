@@ -2,7 +2,7 @@ export const runtime = 'edge';
 
 export async function POST(request) {
   try {
-    const apiKey = process.env.DID_API_KEY;
+    const apiKey = process.env.NEXT_PUBLIC_DID_API_KEY;
     if (!apiKey) {
       return new Response(
         JSON.stringify({ error: 'DID API key not found' }),
@@ -11,7 +11,7 @@ export async function POST(request) {
     }
 
     const body = await request.json();
-    const sourceUrl = body.source_url || 'https://i.ibb.co/1sN3B6D/avatar.jpg';
+    const sourceUrl = body.source_url || 'https://raw.githubusercontent.com/farshadghavami/assets/main/face1.jpg';
 
     // Validate source URL
     try {
@@ -31,6 +31,11 @@ export async function POST(request) {
       },
       body: JSON.stringify({
         source_url: sourceUrl,
+        config: {
+          stream_warmup: true,
+          compatibility_mode: 'auto',
+          output_resolution: 720
+        }
       }),
     });
 
